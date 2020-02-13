@@ -1,6 +1,5 @@
 function [D, W] = eigenCalc(pointsets)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+% function for sorted eigenvalue calculation
 
 [dims, numPts, numImgs] = size(pointsets);
 X = reshape(pointsets, [dims * numPts, numImgs]);

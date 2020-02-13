@@ -1,6 +1,5 @@
 function [meanPS, alignedPointsets] = meanShape(pointsets)
-%UNTITLED2 Summary of this function goes here
-%   Detailed explanation goes here
+% function for calculating the meanshape of the given pointsets
 
 [dims, numPts, numImgs] = size(pointsets);
 meanPS = zeros(dims, numPts);
@@ -20,7 +19,6 @@ meanPS = pointsets(:, :, 1);
 
 epsilon = 1e-6;
 error = 1000;
-j = 0;
 while (error < epsilon)
     old_meanPS = meanPS;
     % get optimum rotation
@@ -38,7 +36,6 @@ while (error < epsilon)
     meanPS = sum(pointsets, 3) / numImgs;
     meanPS = meanPS / norm(meanPS);
     error = norm(meanPS - old_meanPS);
-    j = j + 1;
 end
 
 alignedPointsets = pointsets;

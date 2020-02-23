@@ -1,20 +1,18 @@
-function [denoisedImg, itr, losses] = gradientDescent(noisyImg, alpha, gamma, priorType)
-%GRADIENTDESCENT Summary of this function goes here
-%   Detailed explanation goes here
+function [denoisedImg, losses] = gradientDescent(noisyImg, alpha, gamma, priorType)
+% gradient descent function for loss minimization
 
 epsilon = 1e-8;
 stepSize = 1;
-itr = 0;
 denoisedImg = noisyImg;
 oldNoisyImg = noisyImg;
+losses = [];
 
 while (stepSize > epsilon)
-    itr = itr + 1;
     [priorLoss, priorGrad] = priorMRF(oldNoisyImg, gamma, priorType);
     [lhLoss, lhGrad] = likelihood(oldNoisyImg, noisyImg);
     totalLoss = (1 - alpha) * lhLoss + alpha * priorLoss;
     totalGrad = (1 - alpha) * lhGrad + alpha * priorGrad;
-    losses(itr) = totalLoss;
+    losses = [losses, totalLoss];
     denoisedImg = oldNoisyImg - stepSize * totalGrad;
     [newPriorLoss, ~] = priorMRF(denoisedImg, gamma, priorType);
     [newLhLoss, ~] = likelihood(denoisedImg, noisyImg);
